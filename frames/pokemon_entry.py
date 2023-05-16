@@ -6,11 +6,35 @@ import io
 
 
 class PokemonEntry(ctk.CTkFrame):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        url = 'https://pokeapi.co/api/v2/pokemon-species/1'
+    def __init__(self, master, region, entry_no):
+        super().__init__(master)
+        
+        self.region = region
+        self.entry_no = entry_no
+
+        # call API for region
+        url = f'https://pokeapi.co/api/v2/region/{self.region}'
         response = requests.get(url)
         data = response.json()
+        
+        # call API again to get region dex
+        url = data['pokedexes'][0]['url']
+        response = requests.get(url)
+        data = response.json()
+        dex_id = data['id']
+        
+        # get regional dex endpoint
+        url = f'https://pokeapi.co/api/v2/pokedex/{dex_id}'
+        response = requests.get(url)
+        data = response.json()
+
+        # get national entry number
+        entry_url = data['pokemon_entries'][self.entry_no - 1]['pokemon_species']['url']
+        response = requests.get(entry_url)
+        data = response.json()
+
+        self.national_number = data['id']
+
 
         # Name
         name = data['name']
@@ -18,11 +42,10 @@ class PokemonEntry(ctk.CTkFrame):
 
 
         # Entry no
-        id = data['id']
-        self.id = ctk.CTkLabel(self, text=f"No. {id}")
+        self.entry_number = ctk.CTkLabel(self, text=f"No. {self.national_number}")
 
         # image
-        url = 'https://pokeapi.co/api/v2/pokemon/1'
+        url = f'https://pokeapi.co/api/v2/pokemon/{self.national_number}'
         response =requests.get(url)
         data = response.json()
 
@@ -37,7 +60,7 @@ class PokemonEntry(ctk.CTkFrame):
         self.image = ctk.CTkLabel(self, image=img, text=None)
 
         # category
-        url = 'https://pokeapi.co/api/v2/pokemon-species/1'
+        url = f'https://pokeapi.co/api/v2/pokemon-species/{self.national_number}'
         response = requests.get(url)
         data = response.json()
 
@@ -55,7 +78,7 @@ class PokemonEntry(ctk.CTkFrame):
         self.description =ctk.CTkLabel(self, text=description)
 
         # type
-        url = 'https://pokeapi.co/api/v2/pokemon/1'
+        url = f'https://pokeapi.co/api/v2/pokemon/{self.national_number}'
         response =requests.get(url)
         data = response.json()
         
@@ -76,7 +99,7 @@ class PokemonEntry(ctk.CTkFrame):
         row=0
 
         self.name.grid(row=row, column=0)
-        self.id.grid(row=row+1, column=0)
+        self.entry_number.grid(row=row+1, column=0)
         self.image.grid(row=row+2, column=0)
         self.category.grid(row=row+3, column=0)
         self.description.grid(row=row+4, column=0)
@@ -87,4 +110,4 @@ class PokemonEntry(ctk.CTkFrame):
 
     # button callbacks
     def go_back(self):
-        self.master.show_frame('pokemon_list')
+        self.master.show_frame('pokemon_list', args ={'region' : self.region})

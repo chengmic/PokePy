@@ -15,41 +15,36 @@ class App(ctk.CTk):
         self.title("PokePy")
         self.geometry("700x700")
 
-        self.main_menu_frame = MainMenu(self)
-        self.regions_frame = Regions(self)
-        self.pokemon_list_frame = PokemonList(self)
-        self.pokemon_entry_frame = PokemonEntry(self)
-        self.search_frame = Search(self)
-        self.search_by_name_frame = SearchByName(self)
-        self.search_by_number_frame = SearchByNumber(self)
-        self.generate_frame = Generate(self)
-        
-        self.frames = {
-            'main_menu': self.main_menu_frame,
-            'regions': self.regions_frame,
-            'pokemon_list': self.pokemon_list_frame,
-            'pokemon_entry': self.pokemon_entry_frame,
-            'search': self.search_frame,
-            'search_by_name': self.search_by_name_frame,
-            'search_by_number': self.search_by_number_frame,
-            'generate': self.generate_frame
-        }
+        self.current_frame = MainMenu(self)
+        self.current_frame.pack()
 
-        self.main_menu_frame.grid(row=0, column=0, sticky="nsew")
-        self.regions_frame.grid(row=0, column=0, sticky="nsew")
-        self.pokemon_list_frame.grid(row=0, column=0, stick="nsew")
-        self.pokemon_entry_frame.grid(row=0, column=0, sticky="nsew")
-        self.search_frame.grid(row=0, column=0, stick="nsew")
-        self.search_by_name_frame.grid(row=0, column=0, stick="nsew")
-        self.search_by_number_frame.grid(row=0, column=0, sticky="nsew")
-        self.generate_frame.grid(row=0, column=0, sticky="nsew")
+    def show_frame(self, frame_name, args=None):
+        self.current_frame.destroy()
+        if frame_name == 'main_menu':
+            self.current_frame = MainMenu(self)
+            
+        elif frame_name == 'regions':
+            self.current_frame = Regions(self)
 
-        frame = self.frames['main_menu']
-        frame.tkraise()
+        elif frame_name == 'pokemon_list':
+            self.current_frame = PokemonList(self, args['region'])
 
-    def show_frame(self, frame_name):
-        frame = self.frames[frame_name]
-        frame.tkraise() 
+        elif frame_name == 'pokemon_entry':
+            self.current_frame = PokemonEntry(self, args['region'], args['entry_no'])
+
+        elif frame_name == 'search':
+            self.current_frame = Search(self)
+
+        elif frame_name == 'search_by_name':
+            self.current_frame = SearchByName(self)
+
+        elif frame_name == 'search_by_number':
+            self.current_frame = SearchByNumber(self)
+
+        elif frame_name == 'generate':
+            self.current_frame = Generate(self)
+
+        self.current_frame.pack(expand = True)
 
 app = App()
 app.mainloop()
