@@ -71,6 +71,7 @@ class PokemonEntry(ctk.CTkFrame):
         self.category = ctk.CTkLabel(self, text=genus)
         
         # description
+        description = None
         for d in data['flavor_text_entries']:
             if d['language']['name'] == 'en':
                 description = d['flavor_text']
@@ -87,7 +88,7 @@ class PokemonEntry(ctk.CTkFrame):
             type = d['type']['name']
             type_list.append(type)
 
-        self.type= ctk.CTkLabel(self, text=f"Type: {type_list}")
+        self.type= ctk.CTkLabel(self, text=f"Type: {', '.join(type_list).title()}")
 
         # delcare show more button
         self.more_button = ctk.CTkButton(self, text="Show Alternate Description", width=200, height=50)
@@ -95,18 +96,16 @@ class PokemonEntry(ctk.CTkFrame):
         # delcare back button
         self.back_button = ctk.CTkButton(self, text="Go back", command=self.go_back, width=200, height=50)
         
-        # place widgets 
-        row=0
+        # place widgets
+        self.name.grid(row=0, column=0)
+        self.entry_number.grid(row=1, column=0)
+        self.image.grid(row=2, column=0)
+        self.category.grid(row=3, column=0)
+        self.description.grid(row=4, column=0)
+        self.type.grid(row=5, column=0)
 
-        self.name.grid(row=row, column=0)
-        self.entry_number.grid(row=row+1, column=0)
-        self.image.grid(row=row+2, column=0)
-        self.category.grid(row=row+3, column=0)
-        self.description.grid(row=row+4, column=0)
-        self.type.grid(row=row+5, column=0)
-
-        self.more_button.grid(row=row+6, column=0, pady=10)
-        self.back_button.grid(row=row+7, column=0, pady=10)
+        self.more_button.grid(row=6, column=0, pady=10)
+        self.back_button.grid(row=7, column=0, pady=10)
 
     # button callbacks
     def go_back(self):
