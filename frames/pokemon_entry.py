@@ -32,35 +32,42 @@ class PokemonEntry(ctk.CTkFrame):
         entry_url = data['pokemon_entries'][self.entry_no - 1]['pokemon_species']['url']
         response = requests.get(entry_url)
         data = response.json()
-
-        self.national_number = data['id']
-
-
-        # Name
-        name = data['name']
-        self.name= ctk.CTkLabel(self, text=name.title())
+        self.entry_number = data['id']       # this is the national id
 
 
-        # Entry no
-        self.entry_number = ctk.CTkLabel(self, text=f"No. {self.national_number}")
 
-        # image
-        url = f'https://pokeapi.co/api/v2/pokemon/{self.national_number}'
+
+        # name
+        url = f'https://pokeapi.co/api/v2/pokemon/{self.entry_number}'
         response =requests.get(url)
         data = response.json()
+        name = data['species']['name']
+        self.name = ctk.CTkLabel(self, text=name.title())
+        
+        # id
+        id = data['id']
+        self.id = ctk.CTkLabel(self,text=f'No. {str(id)}')
 
+        # image
+        url = f'https://pokeapi.co/api/v2/pokemon/{self.entry_number}'
+        response =requests.get(url)
+        data = response.json()
+        
         img_url = data['sprites']['other']['official-artwork']['front_default']
-
         response = requests.get(img_url)
         img_data = response.content
 
         img_data = Image.open(io.BytesIO(img_data))
-
         img = ctk.CTkImage(img_data, size=(200,200))
+
         self.image = ctk.CTkLabel(self, image=img, text=None)
 
         # category
-        url = f'https://pokeapi.co/api/v2/pokemon-species/{self.national_number}'
+        url = f'https://pokeapi.co/api/v2/pokemon/{self.entry_number}'
+        response = requests.get(url)
+        data = response.json()
+        
+        url = data['species']['url']
         response = requests.get(url)
         data = response.json()
 
@@ -68,18 +75,28 @@ class PokemonEntry(ctk.CTkFrame):
             if d['language']['name'] == 'en':
                 genus = d['genus']
                 break
+
         self.category = ctk.CTkLabel(self, text=genus)
-        
+
         # description
+        url = f'https://pokeapi.co/api/v2/pokemon/{self.entry_number}'
+        response = requests.get(url)
+        data = response.json()
+        
+        url = data['species']['url']
+        response = requests.get(url)
+        data = response.json()
+        
         description = None
         for d in data['flavor_text_entries']:
             if d['language']['name'] == 'en':
                 description = d['flavor_text']
                 break
+        
         self.description =ctk.CTkLabel(self, text=description)
-
+       
         # type
-        url = f'https://pokeapi.co/api/v2/pokemon/{self.national_number}'
+        url = f'https://pokeapi.co/api/v2/pokemon/{self.entry_number}'
         response =requests.get(url)
         data = response.json()
         
@@ -90,6 +107,7 @@ class PokemonEntry(ctk.CTkFrame):
 
         self.type= ctk.CTkLabel(self, text=f"Type: {', '.join(type_list).title()}")
 
+
         # delcare show more button
         self.more_button = ctk.CTkButton(self, text="Show Alternate Description", width=200, height=50)
 
@@ -98,7 +116,7 @@ class PokemonEntry(ctk.CTkFrame):
         
         # place widgets
         self.name.grid(row=0, column=0)
-        self.entry_number.grid(row=1, column=0)
+        self.id.grid(row=1, column=0)
         self.image.grid(row=2, column=0)
         self.category.grid(row=3, column=0)
         self.description.grid(row=4, column=0)
