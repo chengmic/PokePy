@@ -17,12 +17,11 @@ class GeneratedEntry(ctk.CTkFrame):
         data = response.json()
         name = data['species']['name']
         self.name = ctk.CTkLabel(self, text=name.title())
-        self.name.grid(row=0, column=0)
-        
+
         # entry number
         id = data['id']
         self.id = ctk.CTkLabel(self,text=f'No. {str(id)}')
-        self.id.grid(row=1, column=0)
+
 
         # image
         url = f'https://pokeapi.co/api/v2/pokemon/{self.entry_number}'
@@ -37,7 +36,6 @@ class GeneratedEntry(ctk.CTkFrame):
         img = ctk.CTkImage(img_data, size=(200,200))
 
         self.image = ctk.CTkLabel(self, image=img, text=None)
-        self.image.grid(row=2, column=0)
 
         # category
         url = f'https://pokeapi.co/api/v2/pokemon/{self.entry_number}'
@@ -54,7 +52,6 @@ class GeneratedEntry(ctk.CTkFrame):
                 break
 
         self.category = ctk.CTkLabel(self, text=genus)
-        self.category.grid(row=3, column=0)
 
         # description
         url = f'https://pokeapi.co/api/v2/pokemon/{self.entry_number}'
@@ -72,7 +69,6 @@ class GeneratedEntry(ctk.CTkFrame):
                 break
         
         self.description =ctk.CTkLabel(self, text=description)
-        self.description.grid(row=4, column=0)
        
         # type
         url = f'https://pokeapi.co/api/v2/pokemon/{self.entry_number}'
@@ -85,11 +81,19 @@ class GeneratedEntry(ctk.CTkFrame):
             type_list.append(type)
 
         self.type= ctk.CTkLabel(self, text=f"Type: {', '.join(type_list).title()}")
-        self.type.grid(row=5, column=0)
-
+        
         # back button
         self.back_button = ctk.CTkButton(self, text="Go back", command=self.go_back, width=200, height=50)
+
+        # place widgets
+        self.name.grid(row=0, column=0)
+        self.id.grid(row=1, column=0)
+        self.image.grid(row=2, column=0)
+        self.category.grid(row=3, column=0)
+        self.description.grid(row=4, column=0)
+        self.type.grid(row=5, column=0)
         self.back_button.grid(row=6, column=0)
+        
     
     # methods
     def go_back(self):
