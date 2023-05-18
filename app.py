@@ -47,8 +47,6 @@ class App(ctk.CTk):
         elif frame_name == 'generate':
             self.current_frame = Generate(self)
 
-        elif frame_name == 'generated_entry':
-            self.current_frame = GeneratedEntry(self, args['generated_number'])
 
         self.current_frame.pack(expand = True)
 
