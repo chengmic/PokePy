@@ -5,11 +5,10 @@ import errno
 class Generate(ctk.CTkFrame):
     def __init__(self, master):
         super().__init__(master)
-        
         self.number = 0
+
         # declare description
         self.description = ctk.CTkLabel(self, text="Click below to generate a random Pokémon entry.")
-
 
         # declare buttons
         self.generate_button = ctk.CTkButton(self, text="Generate Pokémon", command=self.request_data, width=200, height=50)
@@ -49,8 +48,8 @@ class Generate(ctk.CTkFrame):
             if e.errno == errno.ECONNREFUSED:
                 print("Error: Microservice is not running.")
     
-    def generate_entry(self, number):
-        self.master.show_frame('generated_entry', args={'generated_number': number})
+    def generate_entry(self, rand_number):
+        self.master.show_frame('pokemon_entry', args={'back_link': 'generate', 'national_number': rand_number})
 
     def go_back(self):
         self.master.show_frame('main_menu')

@@ -7,7 +7,6 @@ from frames.search import Search
 from frames.search_by_name import SearchByName
 from frames.search_by_number import SearchByNumber
 from frames.generate import Generate
-from frames.generated_entry import GeneratedEntry
 
 class App(ctk.CTk):
     def __init__(self):
@@ -31,8 +30,11 @@ class App(ctk.CTk):
             self.current_frame = PokemonList(self, args['region'])
 
         elif frame_name == 'pokemon_entry':
-            self.current_frame = PokemonEntry(self, args['region'], args['entry_no'])
+            if 'regional_number' in args.keys() and 'region' in args.keys():
+                self.current_frame = PokemonEntry(self, args['back_link'], region=args['region'], regional_number=args['regional_number'])
 
+            elif 'national_number' in args.keys():
+                self.current_frame = PokemonEntry(self, args['back_link'], national_number=args['national_number'])
         elif frame_name == 'search':
             self.current_frame = Search(self)
 

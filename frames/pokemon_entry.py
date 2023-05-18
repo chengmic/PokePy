@@ -6,39 +6,42 @@ import io
 
 
 class PokemonEntry(ctk.CTkFrame):
-    def __init__(self, master, region, entry_no):
+    def __init__(self, master, back_link, region=None, regional_number=None, national_number=None, pokemon_name=None):
         super().__init__(master)
-        
+        self.back_link = back_link
         self.region = region
-        self.entry_no = entry_no
+        self.regional_number = regional_number
+        self.national_number = national_number
+        self.pokemon_name = pokemon_name
 
-        # call API for region
-        url = f'https://pokeapi.co/api/v2/region/{self.region}'
-        response = requests.get(url)
-        data = response.json()
-        
-        # call API again to get region dex
-        url = data['pokedexes'][0]['url']
-        response = requests.get(url)
-        data = response.json()
-        dex_id = data['id']
-        
-        # get regional dex endpoint
-        url = f'https://pokeapi.co/api/v2/pokedex/{dex_id}'
-        response = requests.get(url)
-        data = response.json()
+        if self.region:
+            # call API for region
+            url = f'https://pokeapi.co/api/v2/region/{self.region}'
+            response = requests.get(url)
+            data = response.json()
+            
+            # call API again to get region dex
+            url = data['pokedexes'][0]['url']
+            response = requests.get(url)
+            data = response.json()
+            dex_id = data['id']
+            
+            # get regional dex endpoint
+            url = f'https://pokeapi.co/api/v2/pokedex/{dex_id}'
+            response = requests.get(url)
+            data = response.json()
 
-        # get national entry number
-        entry_url = data['pokemon_entries'][self.entry_no - 1]['pokemon_species']['url']
-        response = requests.get(entry_url)
-        data = response.json()
-        self.entry_number = data['id']       # this is the national id
+            # get national entry number
+            entry_url = data['pokemon_entries'][self.regional_number - 1]['pokemon_species']['url']
+            response = requests.get(entry_url)
+            data = response.json()
+            self.national_number = data['id']       # this is the national id
 
 
 
 
         # name
-        url = f'https://pokeapi.co/api/v2/pokemon/{self.entry_number}'
+        url = f'https://pokeapi.co/api/v2/pokemon/{self.national_number}'
         response =requests.get(url)
         data = response.json()
         name = data['species']['name']
@@ -49,7 +52,7 @@ class PokemonEntry(ctk.CTkFrame):
         self.id = ctk.CTkLabel(self,text=f'No. {str(id)}')
 
         # image
-        url = f'https://pokeapi.co/api/v2/pokemon/{self.entry_number}'
+        url = f'https://pokeapi.co/api/v2/pokemon/{self.national_number}'
         response =requests.get(url)
         data = response.json()
         
@@ -63,7 +66,7 @@ class PokemonEntry(ctk.CTkFrame):
         self.image = ctk.CTkLabel(self, image=img, text=None)
 
         # category
-        url = f'https://pokeapi.co/api/v2/pokemon/{self.entry_number}'
+        url = f'https://pokeapi.co/api/v2/pokemon/{self.national_number}'
         response = requests.get(url)
         data = response.json()
         
@@ -79,7 +82,7 @@ class PokemonEntry(ctk.CTkFrame):
         self.category = ctk.CTkLabel(self, text=genus)
 
         # description
-        url = f'https://pokeapi.co/api/v2/pokemon/{self.entry_number}'
+        url = f'https://pokeapi.co/api/v2/pokemon/{self.national_number}'
         response = requests.get(url)
         data = response.json()
         
@@ -96,7 +99,7 @@ class PokemonEntry(ctk.CTkFrame):
         self.description =ctk.CTkLabel(self, text=description)
        
         # type
-        url = f'https://pokeapi.co/api/v2/pokemon/{self.entry_number}'
+        url = f'https://pokeapi.co/api/v2/pokemon/{self.national_number}'
         response =requests.get(url)
         data = response.json()
         
@@ -127,4 +130,5 @@ class PokemonEntry(ctk.CTkFrame):
 
     # button callbacks
     def go_back(self):
-        self.master.show_frame('pokemon_list', args ={'region' : self.region})
+        print(self.back_link)
+        self.master.show_frame(self.back_link, args ={'region' : self.region})

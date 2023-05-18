@@ -5,7 +5,6 @@ import requests
 class PokemonList(ctk.CTkFrame):
     def __init__(self, master, region):
         super().__init__(master)
-        
         self.region = region
 
         # description
@@ -30,8 +29,8 @@ class PokemonList(ctk.CTkFrame):
 
         for d in data['pokemon_entries']:
             pokemon_name = d['pokemon_species']['name']
-            entry_number = d['entry_number']    # this is their regional dex number
-            self.pokemon_buttons.append(ctk.CTkButton(self.scrollable_frame, text =f'{entry_number}. {pokemon_name.title()}', command=lambda id=entry_number: self.show_pokemon_entry(id), width=200))
+            regional_number = d['entry_number']    # this is their regional dex number
+            self.pokemon_buttons.append(ctk.CTkButton(self.scrollable_frame, text =f'{regional_number}. {pokemon_name.title()}', command=lambda id=regional_number: self.show_pokemon_entry(id), width=200))
     
         
         # back button
@@ -54,8 +53,8 @@ class PokemonList(ctk.CTkFrame):
         self.back_button.grid(row=24, column=0, pady=10)
 
     # button callbacks
-    def show_pokemon_entry(self, entry_no):
-       self.master.show_frame('pokemon_entry', args={'region': self.region, 'entry_no': entry_no})
+    def show_pokemon_entry(self, regional_number):
+       self.master.show_frame('pokemon_entry', args={'back_link': 'pokemon_list', 'region': self.region, 'regional_number': regional_number})
 
     def go_back(self):
        self.master.show_frame('regions')
