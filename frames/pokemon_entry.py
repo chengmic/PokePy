@@ -37,8 +37,12 @@ class PokemonEntry(ctk.CTkFrame):
             data = response.json()
             self.national_number = data['id']       # this is the national id
 
-
-
+        if self.pokemon_name:
+            # call API using pokemon name and get national id
+            url = f'https://pokeapi.co/api/v2/pokemon/{self.pokemon_name}'
+            response = requests.get(url)
+            data = response.json()
+            self.national_number = data['id']
 
         # name
         url = f'https://pokeapi.co/api/v2/pokemon/{self.national_number}'
@@ -112,7 +116,7 @@ class PokemonEntry(ctk.CTkFrame):
 
 
         # delcare show more button
-        self.more_button = ctk.CTkButton(self, text="Show Alternate Description", width=200, height=50)
+        self.more_button = ctk.CTkButton(self, text="Show More", width=200, height=50)
 
         # delcare back button
         self.back_button = ctk.CTkButton(self, text="Go back", command=self.go_back, width=200, height=50)
@@ -130,5 +134,4 @@ class PokemonEntry(ctk.CTkFrame):
 
     # button callbacks
     def go_back(self):
-        print(self.back_link)
         self.master.show_frame(self.back_link, args ={'region' : self.region})

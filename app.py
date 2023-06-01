@@ -35,6 +35,10 @@ class App(ctk.CTk):
 
             elif 'national_number' in args.keys():
                 self.current_frame = PokemonEntry(self, args['back_link'], national_number=args['national_number'])
+
+            elif 'pokemon_name' in args.keys():
+                self.current_frame = PokemonEntry(self, args['back_link'], pokemon_name=args['pokemon_name'])
+
         elif frame_name == 'search':
             self.current_frame = Search(self)
 
