@@ -14,11 +14,13 @@ class Generate(ctk.CTkFrame):
         self.generate_button = ctk.CTkButton(self, text="Generate Pokémon", command=self.request_data, width=200, height=50)
         self.back_button = ctk.CTkButton(self, text="Go back", command=self.go_back, width=200, height=50)
 
+        # error message
+        self.error_message = ctk.CTkLabel(self)
+
         # place widgets
-        row = 0
-        self.description.grid(row=row, column=0)
-        self.generate_button.grid(row=row+1, column=0)
-        self.back_button.grid(row=row+2, column=0, pady=10)
+        self.description.grid(row=0, column=0)
+        self.generate_button.grid(row=2, column=0)
+        self.back_button.grid(row=3, column=0, pady=10)
 
     # methods
 
@@ -46,7 +48,8 @@ class Generate(ctk.CTkFrame):
         
         except socket.error as e:
             if e.errno == errno.ECONNREFUSED:
-                print("Error: Microservice is not running.")
+                self.error_message.configure(text="Error: microservice not running.")
+                self.error_message.grid(row=1, pady=10)
     
     def generate_entry(self, rand_number):
         self.master.show_frame('pokemon_entry', args={'back_link': 'generate', 'national_number': rand_number})
