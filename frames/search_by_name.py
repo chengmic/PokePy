@@ -47,7 +47,6 @@ class SearchByName(ctk.CTkFrame):
             else:
                 self.show_pokemon_entry(pokemon_name)
             
-    # methods
     def show_pokemon_entry(self, pokemon_name):
         self.master.show_frame('pokemon_entry', args={'back_link': 'search_by_name', 'pokemon_name': pokemon_name})
     
