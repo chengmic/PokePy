@@ -17,7 +17,7 @@ class SearchByNumber(ctk.CTkFrame):
         self.back_button = ctk.CTkButton(self, text="Go back", command=self.go_back, width=200, height=50)
 
         # error message
-        self.error_message = ctk.CTkLabel(self, text="Error.")
+        self.error_message = ctk.CTkLabel(self)
 
         # place widgets
         self.description.grid(row=0, column=0)
