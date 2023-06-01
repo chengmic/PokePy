@@ -44,6 +44,9 @@ class PokemonEntry(ctk.CTkFrame):
             data = response.json()
             self.national_number = data['id']
 
+        if self.national_number:
+            pass
+
         # name
         url = f'https://pokeapi.co/api/v2/pokemon/{self.national_number}'
         response =requests.get(url)
