@@ -14,9 +14,9 @@ socket_string.listen(1)
 
 while True:
     conn, addr = socket_string.accept()
-    print("Connected by ", addr)
+
     random_num = random.randint(1, 1008)
-    print ('Your randomly generator number is: ', random_num)
+    print (f'Your randomly generator number is: {random_num}\n')
 
     conn.sendall(str(random_num).encode())
     
