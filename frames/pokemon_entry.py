@@ -139,7 +139,7 @@ class PokemonEntry(ctk.CTkFrame):
             self.hidden_ability = ctk.CTkLabel(self, text=f"Hidden Ability: None")
 
         # base stat
-        self.base_stats = ctk.CTkLabel(self, text=f"Base Stats: \nHP: {hp} \nAttack: {atk} \nDefense: {defense} \nSpecial Attack: {sp_atk} \nSpecial Defense: {sp_def} \nSpeed: {sp}")
+        self.base_stats = ctk.CTkLabel(self, text=f"Base Stats: \nHP - {hp} \nAttack - {atk} \nDefense: {defense} \nSpecial Attack - {sp_atk} \nSpecial Defense - {sp_def} \nSpeed - {sp}")
 
         # show more button
         self.info_button = ctk.CTkButton(self, text="Show More Info", width=200, height=50, command=self.toggle_info)
