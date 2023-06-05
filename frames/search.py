@@ -13,11 +13,10 @@ class Search(ctk.CTkFrame):
         self.back_button = ctk.CTkButton(self, text="Go back", command=self.go_back, width=200, height=50)
 
         # place widgets
-        row = 0
-        self.description.grid(row=row, column=0)
-        self.search_by_name_button.grid(row=row + 1, column=0, pady=10)
-        self.search_by_number_button.grid(row=row+2, column=0, pady=10)
-        self.back_button.grid(row=row+3, column=0, pady=10)
+        self.description.grid(row=0, column=0, padx=(210,0), pady=(150,40))
+        self.search_by_name_button.grid(row=1, column=0, padx=(210,0), pady=10)
+        self.search_by_number_button.grid(row=2, column=0, padx=(210,0), pady=10)
+        self.back_button.grid(row=3, column=0, padx=(210,0), pady=10)
 
     # button callbacks
     def show_search_by_name(self):

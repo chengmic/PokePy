@@ -6,7 +6,7 @@ class SearchByName(ctk.CTkFrame):
         super().__init__(*args, **kwargs)
 
         # description
-        self.description = ctk.CTkLabel(self, text="Type the name of the Pokémon you would like to search below.")
+        self.description = ctk.CTkLabel(self, text="Type the name of the Pokémon you would like to search.")
 
         # input
         self.user_input = ctk.CTkEntry(self, placeholder_text= "Pokémon name", width=200, height=50)
@@ -19,7 +19,7 @@ class SearchByName(ctk.CTkFrame):
         self.error_message = ctk.CTkLabel(self)
 
         # place widgets
-        self.description.grid(row=0, column=0)
+        self.description.grid(row=0, column=0, padx=190, pady=(150,40))
         self.user_input.grid(row=2, column=0, pady=10)
         self.search_button.grid(row=3, column=0, pady=10)
         self.back_button.grid(row=4, column=0, pady=10)
@@ -31,7 +31,7 @@ class SearchByName(ctk.CTkFrame):
         # check if input is valid
         if pokemon_name.isalpha() is False or not pokemon_name:
             self.error_message.configure(self, text = "Error: invalid input. Only use characters A-z.")
-            self.error_message.grid(row=1,pady=10)
+            self.error_message.grid(row=1)
 
         else:
             # call API
@@ -41,7 +41,7 @@ class SearchByName(ctk.CTkFrame):
             # if pokemon not found
             if response.status_code != 200:
                 self.error_message.configure(self, text= "Error: Pokemon not found.")
-                self.error_message.grid(row=1,pady=10)
+                self.error_message.grid(row=1)
             
             # check if search is valid
             else:

@@ -16,7 +16,7 @@ class Regions(ctk.CTkFrame):
 
         # create scrollable frame
         self.scrollable_frame = ctk.CTkScrollableFrame(self, height=500)
-        self.scrollable_frame.grid(row=1, column=0)
+        self.scrollable_frame.grid(row=1, column=0, padx=250)
 
         # location buttons
         self.region_buttons = []
@@ -31,12 +31,11 @@ class Regions(ctk.CTkFrame):
         self.back_button = ctk.CTkButton(self, text="Go back", command=self.go_back, width=200, height=50)
 
         # place widgets
-        row = 0
-
-        self.description.grid(row=row, column=0)
-
+        self.description.grid(row=0, column=0, pady=(15,0))
+        
+        row = 1
         for button in self.region_buttons:
-            button.grid(row=row+1, column=0, pady=5)
+            button.grid(row=row, column=0, pady=5)
             row += 1
             
         self.back_button.grid(row=row+2, column=0, pady=10)

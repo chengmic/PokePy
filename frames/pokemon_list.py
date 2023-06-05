@@ -22,7 +22,7 @@ class PokemonList(ctk.CTkFrame):
 
         # create scrollable frame
         self.scrollable_frame = ctk.CTkScrollableFrame(self, height=500)
-        self.scrollable_frame.grid(row=1, column=0)
+        self.scrollable_frame.grid(row=1, column=0, padx=250)
         
         # create buttons
         self.pokemon_buttons = []
@@ -37,10 +37,8 @@ class PokemonList(ctk.CTkFrame):
         self.back_button = ctk.CTkButton(self, text="Go back", command=self.go_back, width=200, height=50)
         
         # place description
-        self.description.grid(row=0, column=0)
+        self.description.grid(row=0, column=0, pady=(15,0))
 
-
-        
         # place pokemon buttons
         row = 0
         column = 0

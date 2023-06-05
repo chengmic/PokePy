@@ -148,16 +148,15 @@ class PokemonEntry(ctk.CTkFrame):
         self.back_button = ctk.CTkButton(self, text="Go back", command=self.go_back, width=200, height=50)
         
         # place widgets
-        info_column = 0
-        self.name.grid(row=0, column=info_column)
-        self.id.grid(row=1, column=info_column)
-        self.image.grid(row=2, column=info_column)
-        self.category.grid(row=3, column=info_column, pady=5)
-        self.description.grid(row=4, column=info_column, pady=5)
-        self.type.grid(row=5, column=info_column, pady=5)
+        self.name.grid(row=0, column=0, padx=(55,30), pady=(15,0))
+        self.id.grid(row=1, column=0, padx=(55,30))
+        self.image.grid(row=2, column=0, padx=(55,30))
+        self.category.grid(row=3, column=0, padx=(55,30), pady=5)
+        self.description.grid(row=4, column=0, padx=(55,30), pady=5)
+        self.type.grid(row=5, column=0, padx=(55,30), pady=5)
 
-        self.info_button.grid(row=6, column=0, pady=10)
-        self.back_button.grid(row=7, column=0, padx=10, pady=20)
+        self.info_button.grid(row=6, column=0, padx=(55,30), pady=10)
+        self.back_button.grid(row=7, column=0, padx=(55,30), pady=20)
 
 
     # methods
@@ -167,7 +166,7 @@ class PokemonEntry(ctk.CTkFrame):
             self.info_button.configure(text="Show Less Info")
 
             # place additional info
-            self.height.grid(row=0, column=1)
+            self.height.grid(row=0, column=1, pady=(15,0))
             self.weight.grid(row=1, column=1)
             self.base_stats.grid(row=2, column=1)
             self.abilities.grid(row=3, column=1)

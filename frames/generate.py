@@ -8,7 +8,7 @@ class Generate(ctk.CTkFrame):
         self.number = 0
 
         # declare description
-        self.description = ctk.CTkLabel(self, text="Click below to generate a random Pokémon entry.")
+        self.description = ctk.CTkLabel(self, text="Click below to generate a random Pokédex entry.")
 
         # declare buttons
         self.generate_button = ctk.CTkButton(self, text="Generate Pokémon", command=self.request_data, width=200, height=50)
@@ -18,9 +18,9 @@ class Generate(ctk.CTkFrame):
         self.error_message = ctk.CTkLabel(self)
 
         # place widgets
-        self.description.grid(row=0, column=0)
-        self.generate_button.grid(row=2, column=0)
-        self.back_button.grid(row=3, column=0, pady=10)
+        self.description.grid(row=0, column=0, padx=(200,0), pady=(150,40))
+        self.generate_button.grid(row=2, column=0, padx=(200,0), pady=10)
+        self.back_button.grid(row=3, column=0, padx=(200,0), pady=10)
 
     # methods
 

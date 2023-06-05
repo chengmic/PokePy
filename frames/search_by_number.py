@@ -6,7 +6,7 @@ class SearchByNumber(ctk.CTkFrame):
         super().__init__(*args, **kwargs)
         
         # description
-        self.description = ctk.CTkLabel(self, text="Type the entry number of the Pokémon you would like to search below.")
+        self.description = ctk.CTkLabel(self, text="Type the entry # of the Pokémon you would like to search.")
 
         # input
         self.user_input = ctk.CTkEntry(self, placeholder_text= "Entry no.", width=200, height=50)
@@ -20,7 +20,7 @@ class SearchByNumber(ctk.CTkFrame):
         self.error_message = ctk.CTkLabel(self)
 
         # place widgets
-        self.description.grid(row=0, column=0)
+        self.description.grid(row=0, column=0, padx=190, pady=(150, 40))
         self.user_input.grid(row=2, column=0, pady=10)
         self.search_button.grid(row=3, column=0, pady=10)
         self.back_button.grid(row=4, column=0, pady=10)
@@ -32,7 +32,7 @@ class SearchByNumber(ctk.CTkFrame):
         # check if input is valid
         if pokemon_number.isdigit() is False:
             self.error_message.configure(self, text="Error: invalid input. Only use positive integers.")
-            self.error_message.grid(row=1, pady=10)
+            self.error_message.grid(row=1)
 
         else:
             # call API
@@ -42,7 +42,7 @@ class SearchByNumber(ctk.CTkFrame):
             # check if search is valid
             if response.status_code != 200:
                 self.error_message.configure(self, text="Error: Pokemon not found.")
-                self.error_message.grid(row=1, pady=10)
+                self.error_message.grid(row=1)
             else:
                 self.show_pokemon_entry(pokemon_number)
                 
@@ -50,4 +50,4 @@ class SearchByNumber(ctk.CTkFrame):
         self.master.show_frame('pokemon_entry', args={'back_link': 'search_by_number', 'national_number': pokemon_number})
 
     def go_back(self):
-        self.master.show_frame('main_menu')
+        self.master.show_frame('search')
