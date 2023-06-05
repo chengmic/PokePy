@@ -47,40 +47,12 @@ class PokemonEntry(ctk.CTkFrame):
         if self.national_number:
             pass
 
-        # name
-        url = f'https://pokeapi.co/api/v2/pokemon/{self.national_number}'
-        response =requests.get(url)
-        data = response.json()
-        name = data['species']['name']
-        self.name = ctk.CTkLabel(self, text=name.title())
-        
-        # id
-        id = data['id']
-        self.id = ctk.CTkLabel(self,text=f'No. {str(id)}')
-
-        # image
-        url = f'https://pokeapi.co/api/v2/pokemon/{self.national_number}'
-        response =requests.get(url)
+        # ---------- /pokemon-species ENDPOINT ----------
+        url = f'https://pokeapi.co/api/v2/pokemon-species/{self.national_number}'
+        response = requests.get(url)
         data = response.json()
         
-        img_url = data['sprites']['other']['official-artwork']['front_default']
-        response = requests.get(img_url)
-        img_data = response.content
-
-        img_data = Image.open(io.BytesIO(img_data))
-        img = ctk.CTkImage(img_data, size=(200,200))
-
-        self.image = ctk.CTkLabel(self, image=img, text=None)
-
         # category
-        url = f'https://pokeapi.co/api/v2/pokemon/{self.national_number}'
-        response = requests.get(url)
-        data = response.json()
-        
-        url = data['species']['url']
-        response = requests.get(url)
-        data = response.json()
-
         for d in data['genera']:
             if d['language']['name'] == 'en':
                 genus = d['genus']
@@ -89,14 +61,6 @@ class PokemonEntry(ctk.CTkFrame):
         self.category = ctk.CTkLabel(self, text=genus)
 
         # description
-        url = f'https://pokeapi.co/api/v2/pokemon/{self.national_number}'
-        response = requests.get(url)
-        data = response.json()
-        
-        url = data['species']['url']
-        response = requests.get(url)
-        data = response.json()
-        
         description = None
         for d in data['flavor_text_entries']:
             if d['language']['name'] == 'en':
@@ -104,12 +68,33 @@ class PokemonEntry(ctk.CTkFrame):
                 break
         
         self.description =ctk.CTkLabel(self, text=description)
-       
-        # type
+
+
+        
+        # ----------- /pokemon ENDPOINT ----------
         url = f'https://pokeapi.co/api/v2/pokemon/{self.national_number}'
         response =requests.get(url)
         data = response.json()
+
+        # name
+        name = data['species']['name']
+        self.name = ctk.CTkLabel(self, text=name.title())
         
+        # id
+        id = data['id']
+        self.id = ctk.CTkLabel(self,text=f'No. {str(id)}')
+
+        # image
+        img_url = data['sprites']['other']['official-artwork']['front_default']
+        img_response = requests.get(img_url)
+        img_data = img_response.content
+
+        img_data = Image.open(io.BytesIO(img_data))
+        img = ctk.CTkImage(img_data, size=(200,200))
+
+        self.image = ctk.CTkLabel(self, image=img, text=None)
+       
+        # type
         type_list =[]
         for d in data['types']:
             type = d['type']['name']
@@ -117,24 +102,87 @@ class PokemonEntry(ctk.CTkFrame):
 
         self.type= ctk.CTkLabel(self, text=f"Type: {', '.join(type_list).title()}")
 
+        # height and weight
+        height = data['height'] / 10
+        weight = data['weight'] / 10
 
-        # delcare show more button
-        self.more_button = ctk.CTkButton(self, text="Show More", width=200, height=50)
+        self.height = ctk.CTkLabel(self, text = f"Height: {height}m")
+        self.weight = ctk.CTkLabel(self, text = f"Weight: {weight}kg")
 
-        # delcare back button
+        # base stats
+        hp = data['stats'][0]['base_stat']
+        atk = data['stats'][1]['base_stat']
+        defense = data['stats'][2]['base_stat']
+        sp_atk = data['stats'][3]['base_stat']
+        sp_def = data['stats'][4]['base_stat']
+        sp = data['stats'][5]['base_stat']
+
+        # abilities and hidden ability
+        ability_list = []
+        hidden_ability = None
+
+        abilities = data['abilities']
+
+        for ability in abilities:
+            if ability['is_hidden'] is False:
+                ability_name = ability['ability']['name']
+                ability_list.append(ability_name)
+
+            else:
+                hidden_ability = ability['ability']['name']
+
+        self.abilities= ctk.CTkLabel(self, text=f"Abilities: {', '.join(ability_list).title()}")
+        
+        if hidden_ability:
+            self.hidden_ability = ctk.CTkLabel(self, text=f"Hidden Ability: {hidden_ability.title()}")
+        else: 
+            self.hidden_ability = ctk.CTkLabel(self, text=f"Hidden Ability: None")
+
+        # base stat
+        self.base_stats = ctk.CTkLabel(self, text=f"Base Stats: \nHP: {hp} \nAttack: {atk} \nDefense: {defense} \nSpecial Attack: {sp_atk} \nSpecial Defense: {sp_def} \nSpeed: {sp}")
+
+        # show more button
+        self.info_button = ctk.CTkButton(self, text="Show More Info", width=200, height=50, command=self.toggle_info)
+
+        # back button
         self.back_button = ctk.CTkButton(self, text="Go back", command=self.go_back, width=200, height=50)
         
         # place widgets
-        self.name.grid(row=0, column=0)
-        self.id.grid(row=1, column=0)
-        self.image.grid(row=2, column=0)
-        self.category.grid(row=3, column=0)
-        self.description.grid(row=4, column=0)
-        self.type.grid(row=5, column=0)
+        info_column = 0
+        self.name.grid(row=0, column=info_column)
+        self.id.grid(row=1, column=info_column)
+        self.image.grid(row=2, column=info_column)
+        self.category.grid(row=3, column=info_column, pady=5)
+        self.description.grid(row=4, column=info_column, pady=5)
+        self.type.grid(row=5, column=info_column, pady=5)
 
-        self.more_button.grid(row=6, column=0, pady=10)
-        self.back_button.grid(row=7, column=0, pady=10)
+        self.info_button.grid(row=6, column=0, pady=10)
+        self.back_button.grid(row=7, column=0, padx=10, pady=20)
 
-    # button callbacks
+
+    # methods
+    def toggle_info(self):
+        if self.info_button.cget("text") == "Show More Info":
+            # change button text
+            self.info_button.configure(text="Show Less Info")
+
+            # place additional info
+            self.height.grid(row=0, column=1)
+            self.weight.grid(row=1, column=1)
+            self.base_stats.grid(row=2, column=1)
+            self.abilities.grid(row=3, column=1)
+            self.hidden_ability.grid(row=4, column=1)
+
+        else:
+            # change button text
+            self.info_button.configure(text="Show More Info")
+
+            # remove additional info
+            self.height.grid_forget()
+            self.weight.grid_forget()
+            self.base_stats.grid_forget()
+            self.abilities.grid_forget()
+            self.hidden_ability.grid_forget()
+
     def go_back(self):
         self.master.show_frame(self.back_link, args ={'region' : self.region})

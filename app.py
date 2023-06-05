@@ -16,7 +16,7 @@ class App(ctk.CTk):
         self.geometry("700x700")
 
         self.current_frame = MainMenu(self)
-        self.current_frame.pack()
+        self.current_frame.pack(fill = ctk.BOTH, expand = True)
 
     def show_frame(self, frame_name, args=None):
         self.current_frame.destroy()
@@ -52,7 +52,7 @@ class App(ctk.CTk):
             self.current_frame = Generate(self)
 
 
-        self.current_frame.pack(expand = True)
+        self.current_frame.pack(fill=ctk.BOTH, expand=True)
 
 app = App()
 app.mainloop()
