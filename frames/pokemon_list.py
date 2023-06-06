@@ -30,7 +30,8 @@ class PokemonList(ctk.CTkFrame):
         for d in data['pokemon_entries']:
             pokemon_name = d['pokemon_species']['name']
             regional_number = d['entry_number']    # this is their regional dex number
-            self.pokemon_buttons.append(ctk.CTkButton(self.scrollable_frame, text =f'{regional_number}. {pokemon_name.title()}', command=lambda id=regional_number: self.show_pokemon_entry(id), width=200))
+            self.pokemon_buttons.append(ctk.CTkButton(self.scrollable_frame, text =f'{regional_number}. {pokemon_name.title()}', \
+                                                      command=lambda id=regional_number: self.show_pokemon_entry(id), width=200))
     
         
         # back button
