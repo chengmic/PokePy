@@ -25,7 +25,8 @@ class Regions(ctk.CTkFrame):
         for region in regions:
             region_name = region['name']
             number += 1
-            self.region_buttons.append(ctk.CTkButton(self.scrollable_frame, text=f'{str(number)}. {region_name.title()}', command=lambda region=region_name: self.show_pokemon_list(region), width=200, height=50))
+            self.region_buttons.append(ctk.CTkButton(self.scrollable_frame, text=f'{str(number)}. {region_name.title()}',\
+                                                      command=lambda region=region_name: self.show_pokemon_list(region), width=200, height=50))
 
         # back button
         self.back_button = ctk.CTkButton(self, text="Go back", command=self.go_back, width=200, height=50)

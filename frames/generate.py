@@ -18,9 +18,9 @@ class Generate(ctk.CTkFrame):
         self.error_message = ctk.CTkLabel(self)
 
         # place widgets
-        self.description.grid(row=0, column=0, padx=(200,0), pady=(150,40))
-        self.generate_button.grid(row=2, column=0, padx=(200,0), pady=10)
-        self.back_button.grid(row=3, column=0, padx=(200,0), pady=10)
+        self.description.grid(row=0, column=0, pady=(150,40))
+        self.generate_button.grid(row=2, column=0, padx=250, pady=10)
+        self.back_button.grid(row=3, column=0, pady=10)
 
     # methods
 
