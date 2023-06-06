@@ -20,8 +20,8 @@ class SearchByNumber(ctk.CTkFrame):
         self.error_message = ctk.CTkLabel(self)
 
         # place widgets
-        self.description.grid(row=0, column=0, padx=190, pady=(150, 40))
-        self.user_input.grid(row=2, column=0, pady=10)
+        self.description.grid(row=0, column=0, pady=(150, 40))
+        self.user_input.grid(row=2, column=0, padx=250, pady=10)
         self.search_button.grid(row=3, column=0, pady=10)
         self.back_button.grid(row=4, column=0, pady=10)
 
