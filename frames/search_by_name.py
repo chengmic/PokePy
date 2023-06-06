@@ -6,7 +6,7 @@ class SearchByName(ctk.CTkFrame):
         super().__init__(*args, **kwargs)
 
         # description
-        self.description = ctk.CTkLabel(self, text="Type the name of the Pokémon you would like to search.")
+        self.description = ctk.CTkLabel(self, text="Type the full name of the Pokémon you would like to search.")
 
         # input
         self.user_input = ctk.CTkEntry(self, placeholder_text= "Pokémon name", width=200, height=50)

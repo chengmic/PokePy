@@ -6,7 +6,7 @@ class SearchByNumber(ctk.CTkFrame):
         super().__init__(*args, **kwargs)
         
         # description
-        self.description = ctk.CTkLabel(self, text="Type the entry # of the Pokémon you would like to search.")
+        self.description = ctk.CTkLabel(self, text="Type the national entry # of the Pokémon you would like to search.")
 
         # input
         self.user_input = ctk.CTkEntry(self, placeholder_text= "Entry no.", width=200, height=50)
