@@ -31,12 +31,21 @@ class PokemonEntry(ctk.CTkFrame):
             response = requests.get(url)
             data = response.json()
 
-            # get national entry number
-            entry_url = data['pokemon_entries'][self.regional_number - 1]['pokemon_species']['url']
-            response = requests.get(entry_url)
-            data = response.json()
-            self.national_number = data['id']       # this is the national id
-
+            # handle special case unova
+            if dex_id == 8:
+                # get national entry number
+                entry_url = data['pokemon_entries'][self.regional_number]['pokemon_species']['url']
+                response = requests.get(entry_url)
+                data = response.json()
+                self.national_number = data['id']   
+                 
+            else:
+                # get national entry number
+                entry_url = data['pokemon_entries'][self.regional_number - 1]['pokemon_species']['url']
+                response = requests.get(entry_url)
+                data = response.json()
+                self.national_number = data['id']   
+                 
         if self.pokemon_name:
             # call API using pokemon name and get national id
             url = f'https://pokeapi.co/api/v2/pokemon/{self.pokemon_name}'
